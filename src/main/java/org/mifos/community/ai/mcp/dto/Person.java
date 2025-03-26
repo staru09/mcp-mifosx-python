@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.mifos.community.ai.mcp;
+package org.mifos.community.ai.mcp.dto;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

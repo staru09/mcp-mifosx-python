@@ -18,6 +18,7 @@
  */
 package org.mifos.community.ai.mcp;
 
+import org.mifos.community.ai.mcp.dto.Person;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
