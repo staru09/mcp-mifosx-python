@@ -31,7 +31,7 @@ import org.mifos.community.ai.mcp.SearchParameters;
 
 @RegisterRestClient(configKey = "mifosx")
 @ClientHeaderParam(name = "Authorization", value = "{getAuthorizationHeader}")
-@ClientHeaderParam(name = "fineract-platform-tenantid", value = "{getAuthorizationHeader}")
+@ClientHeaderParam(name = "fineract-platform-tenantid", value = "{getTenantHeader}")
 public interface MifosXClient {
     
     final Config config = ConfigProvider.getConfig();
