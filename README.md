@@ -1,5 +1,28 @@
 # Mifos X - AI - Model Context Protocol (MCP)
 
+## Use
+
+In your AI agent tool (ChatGPT, Google AI Studio, Claude Desktop) add this MCP configuration
+
+```shell script
+{
+    "mcpServers": {
+        "mifosx": {
+            "command": "jbang",
+            "args": ["--quiet",
+                    "org.mifos.community.ai.mcp:mcp-server:1.0.0-SNAPSHOT:runner"],
+             "env":{
+				"MIFOSX_BASE_URL":"",
+				"MIFOSX_BASIC_AUTH_TOKEN":"",
+				"MIFOS_TENANT_ID":""
+             }
+        }
+    }
+}
+```
+
+## Introduction
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
