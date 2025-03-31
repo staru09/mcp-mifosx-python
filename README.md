@@ -10,7 +10,7 @@ In your AI agent tool (ChatGPT, Google AI Studio, Claude Desktop) add this MCP c
         "mifosx": {
             "command": "jbang",
             "args": ["--quiet",
-                    "org.mifos.community.ai.mcp:mcp-server:1.0.0-SNAPSHOT:runner"],
+                    "org.mifos.community.ai:mcp-server:1.0.0-SNAPSHOT:runner"],
              "env":{
 				"MIFOSX_BASE_URL":"",
 				"MIFOSX_BASIC_AUTH_TOKEN":"",
