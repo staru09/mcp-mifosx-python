@@ -38,19 +38,24 @@ public class MifosX {
     @RestClient
     MifosXClient mifosXClient;
 
-    @Tool(description = "Get client details using client account or full name.")
+    @Tool(description = "Get client details using client account or full name")
     JsonNode getClientDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
     }
     
-    @Tool(description = "Get list of available offices.")
+    @Tool(description = "Get list of offices")
     JsonNode getOffices() {        
         return mifosXClient.getOffices();
     }
     
-    @Tool(description = "Get list of legal form id.")
+    @Tool(description = "Get list of clients")
+    JsonNode getClientss() {        
+        return mifosXClient.getClients();
+    }
+    
+    @Tool(description = "Get list of legal form id")
     List<LegalForm> getLegalForms() {        
         ObjectMapper mapper = new ObjectMapper();
         List<LegalForm> legalForms = new ArrayList<LegalForm>();

@@ -59,6 +59,10 @@ public interface MifosXClient {
     @Path("/fineract-provider/api/v1/offices")
     JsonNode getOffices();
     
+    @GET
+    @Path("/fineract-provider/api/v1/clients")
+    JsonNode getClients();
+    
     JsonNode getLegalForms();
     
 }
