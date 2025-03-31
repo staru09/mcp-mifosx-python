@@ -24,8 +24,10 @@ public class SearchParameters {
 
     @QueryParam("exactMatch")
     String exactMatch="true";
+    
     @QueryParam("resource")
     String resource="clients";
+    
     @QueryParam("query")
     String query;
 
