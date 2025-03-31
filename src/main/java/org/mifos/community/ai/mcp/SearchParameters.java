@@ -21,12 +21,9 @@ package org.mifos.community.ai.mcp;
 import jakarta.ws.rs.QueryParam;
 
 public class SearchParameters {
-
-    @QueryParam("exactMatch")
-    String exactMatch="true";
     
     @QueryParam("resource")
-    String resource="clients";
+    String resource="clients,clientIdentifiers";
     
     @QueryParam("query")
     String query;
