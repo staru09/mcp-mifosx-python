@@ -19,7 +19,6 @@
 package org.mifos.community.ai.mcp.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.quarkus.rest.client.reactive.ClientRedirectHandler;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

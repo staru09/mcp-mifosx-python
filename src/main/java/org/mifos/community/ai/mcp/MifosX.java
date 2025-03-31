@@ -18,17 +18,14 @@
  */
 package org.mifos.community.ai.mcp;
 
-import org.mifos.community.ai.mcp.dto.Person;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
-import io.quarkus.qute.Qute;
 import org.mifos.community.ai.mcp.client.MifosXClient;
 
 public class MifosX {
@@ -39,23 +36,8 @@ public class MifosX {
     @Tool(description = "Get client details using client account or full name.")
     JsonNode getClientDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
-        searchParameters.query=clientName; 
-        //return formatResults(mifosXClient.getClientDetails(searchParameters));
+        searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
-    }
-    
-    String formatResults(JsonNode results) {    
-        Person person = new Person("","","");
-        person.setAccount(results.get(0).get("entityAccountNo").asText());
-        person.setName(results.get(0).get("entityName").asText());
-        person.setPhone(results.get(0).get("entityMobileNo").asText());
-        return Qute.fmt(
-                        """
-                                Name: {p.name} 
-                                Account: {p.account} 
-                                Phone: {p.phone}
-                                """,
-                        Map.of("p", person));
     }
    
     public record Result(
