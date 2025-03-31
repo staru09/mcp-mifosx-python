@@ -37,10 +37,11 @@ public class MifosX {
     MifosXClient mifosXClient;
 
     @Tool(description = "Get client details using client account or full name.")
-    String getClientDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
+    JsonNode getClientDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName; 
-        return formatResults(mifosXClient.getClientDetails(searchParameters));
+        //return formatResults(mifosXClient.getClientDetails(searchParameters));
+        return mifosXClient.getClientDetails(searchParameters);
     }
     
     String formatResults(JsonNode results) {    
