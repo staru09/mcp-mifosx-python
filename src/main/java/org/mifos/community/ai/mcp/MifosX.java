@@ -20,13 +20,18 @@ package org.mifos.community.ai.mcp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
+import java.util.ArrayList;
 import org.mifos.community.ai.mcp.client.MifosXClient;
+import org.mifos.community.ai.mcp.dto.LegalForm;
 
 public class MifosX {
 
@@ -39,6 +44,34 @@ public class MifosX {
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
     }
+    
+    @Tool(description = "Get list of available offices.")
+    JsonNode getOffices() {        
+        return mifosXClient.getOffices();
+    }
+    
+    @Tool(description = "Get list of legal form id.")
+    List<LegalForm> getLegalForms() {        
+        ObjectMapper mapper = new ObjectMapper();
+        List<LegalForm> legalForms = new ArrayList<LegalForm>();
+        LegalForm lfPerson = new LegalForm();
+        lfPerson.setId(1);
+        lfPerson.setType("Person");
+        legalForms.add(lfPerson);
+        LegalForm lfCompany = new LegalForm();
+        lfCompany.setId(2);
+        lfCompany.setType("Company");
+        legalForms.add(lfCompany);
+        return legalForms;    
+    }
+    
+    /*
+    @Tool(description = "Create a client using client first name, client last name, office id, legal form id and current date.")
+    JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)") String firstname) {
+        SearchParameters searchParameters = new SearchParameters();
+        searchParameters.query=clientName;
+        return mifosXClient.getClientDetails(searchParameters);
+    }*/
    
     public record Result(
             String entityAccountNo,

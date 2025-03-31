@@ -19,14 +19,20 @@
 package org.mifos.community.ai.mcp.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.mifos.community.ai.mcp.SearchParameters;
+import org.mifos.community.ai.mcp.dto.LegalForm;
 
 @RegisterRestClient(configKey = "mifosx")
 @ClientHeaderParam(name = "Authorization", value = "{getAuthorizationHeader}")
@@ -48,4 +54,11 @@ public interface MifosXClient {
     @GET
     @Path("/fineract-provider/api/v1/search")
     JsonNode getClientDetails(@BeanParam SearchParameters filterParams);
+    
+    @GET
+    @Path("/fineract-provider/api/v1/offices")
+    JsonNode getOffices();
+    
+    JsonNode getLegalForms();
+    
 }
