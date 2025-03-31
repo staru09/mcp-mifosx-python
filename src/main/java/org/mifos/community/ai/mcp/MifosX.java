@@ -45,12 +45,12 @@ public class MifosX {
         return mifosXClient.getClientDetails(searchParameters);
     }
     
-    @Tool(description = "Get list of offices")
+    @Tool(description = "List all the offices")
     JsonNode getOffices() {        
         return mifosXClient.getOffices();
     }
     
-    @Tool(description = "Get list of clients")
+    @Tool(description = "List all the clients")
     JsonNode getClients() {        
         return mifosXClient.getClients();
     }
