@@ -46,17 +46,17 @@ public class MifosX {
     }
     
     @Tool(description = "List all the offices")
-    JsonNode getOffices() {        
+    JsonNode getAllOffices() {        
         return mifosXClient.getOffices();
     }
     
     @Tool(description = "List all the clients")
-    JsonNode getClients() {        
+    JsonNode getAllClients() {        
         return mifosXClient.getClients();
     }
     
     @Tool(description = "Get list of legal form id")
-    List<LegalForm> getLegalForms() {        
+    List<LegalForm> getAllLegalForms() {        
         ObjectMapper mapper = new ObjectMapper();
         List<LegalForm> legalForms = new ArrayList<LegalForm>();
         LegalForm lfPerson = new LegalForm();
