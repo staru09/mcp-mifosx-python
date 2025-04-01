@@ -37,6 +37,8 @@ public class MifosX {
 
     @RestClient
     MifosXClient mifosXClient;
+    
+    /*
 
     @Tool(description = "Search for a specific client account and retrieve the details using client account or full name. "
             + "Please ensure that when calling this tool, the input key MUST always be \"input\".")
@@ -45,13 +47,14 @@ public class MifosX {
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
     }
+    */
     
     @Tool(description = "List all the offices. "
             + "Please ensure that when calling this tool, the input key MUST always be \"input\".")
     JsonNode getAllOffices(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getOffices();
     }
-    
+    /*
     @Tool(description = "List all the clients")
     JsonNode getAllClients(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getClients();
@@ -71,9 +74,8 @@ public class MifosX {
         lfCompany.setType("Company");
         legalForms.add(lfCompany);
         return legalForms;    
-    }
+    }    
     
-    /*
     @Tool(description = "Create a client using client first name, client last name, office id, legal form id and current date.")
     JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)") String firstname) {
         SearchParameters searchParameters = new SearchParameters();
