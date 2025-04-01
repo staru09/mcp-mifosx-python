@@ -46,7 +46,7 @@ public class MifosX {
     }
     
     
-    @Tool(description = "List all the offices.")
+    @Tool(description = "Search for all the offices and retrieve them as a list.")
     JsonNode getAllOffices(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getOffices();
     }
