@@ -45,11 +45,11 @@ public class MifosX {
         return mifosXClient.getClientDetails(searchParameters);
     }
     
-    
     @Tool(description = "Search for all the offices and retrieve them as a list.")
     JsonNode getAllOffices(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getOffices();
     }
+    
     /*
     @Tool(description = "List all the clients")
     JsonNode getAllClients(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
