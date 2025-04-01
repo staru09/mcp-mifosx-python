@@ -78,7 +78,7 @@ public class MifosX {
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
     }*/
-   
+   /*
     public record Result(
             String entityAccountNo,
             String entityMobileNo,
@@ -89,6 +89,6 @@ public class MifosX {
     public record Results(
             @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             List<Result>[] clients) {
-    }
+    }*/
 
 }
