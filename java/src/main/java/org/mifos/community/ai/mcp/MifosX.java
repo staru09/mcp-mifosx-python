@@ -38,8 +38,8 @@ public class MifosX {
     @RestClient
     MifosXClient mifosXClient;
     
-    @Tool(description = "Search for a specific client account and retrieve the details using client account or full name.")
-    JsonNode getClientAccountDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
+    @Tool(description = "Search for a specific client account and retrieve the details using client account number or client full name.")
+    JsonNode get_client_details(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
