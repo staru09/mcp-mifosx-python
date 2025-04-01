@@ -39,19 +39,18 @@ public class MifosX {
     MifosXClient mifosXClient;
     
     @Tool(description = "Search for a specific client account and retrieve the details using client account number or client full name.")
-    JsonNode get_client_details(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
+    JsonNode getClientAccountDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
     }
     
-    /*
-    @Tool(description = "List all the offices. "
-            + "Please ensure that when calling this tool, the input key MUST always be \"input\".")
+    
+    @Tool(description = "List all the offices.")
     JsonNode getAllOffices(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getOffices();
     }
-    
+    /*
     @Tool(description = "List all the clients")
     JsonNode getAllClients(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getClients();
