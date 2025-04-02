@@ -18,20 +18,18 @@
  */
 package org.mifos.community.ai.mcp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.util.List;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.mifos.community.ai.mcp.client.MifosXClient;
-import org.mifos.community.ai.mcp.dto.LegalForm;
+import org.mifos.community.ai.mcp.dto.Client;
+import org.mifos.community.ai.mcp.dto.FamilyMember;
 
 public class MifosX {
 
@@ -50,13 +48,34 @@ public class MifosX {
         return mifosXClient.getClientDetailsById(clientId);
     }
     
-    /*        
-    @Tool(description = "Create a client using client first name, client last name, office id, legal form id and current date.")
-    JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)") String firstname) {
-        SearchParameters searchParameters = new SearchParameters();
-        searchParameters.query=clientName;
-        return mifosXClient.getClientDetails(searchParameters);
+       
+    @Tool(description = "Create a client using client first name, client last name, email address, mobile number and external id")
+    JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)", required = true) String firstName, 
+            @ToolArg(description = "Last Name (e.g. Doe)", required = true) String lastName,
+            @ToolArg(description = "Optional Email Address (e.g. jhon@gmail.com)", required = false) String emailAddress,
+            @ToolArg(description = "Optional Mobile Number (e.g. +5215522649494)", required = false) String mobileNo,
+            @ToolArg(description = "Optional External Id (e.g. Jhon)", required = false) String externalId) {
+        Client client = new Client();
+        client.setFirstName(firstName);
+        client.setLastName(lastName);
+        client.setEmailAddress(emailAddress);
+        client.setMobileNo(mobileNo);
+        client.setExternalId(externalId);        
+        client.setOfficeId(1);
+        client.setLegalFormId(1);
+        client.setStaff(false);
+        client.setActive(false);        
+        client.setDateFormat("yyyy-MM-dd");
+        client.setLocale("en");
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(client.getDateFormat());
+        String formattedDate = currentDate.format(dtf);
+        client.setActivationDate(formattedDate);
+        client.setSubmittedOnDate(formattedDate);
+        ArrayList<FamilyMember> familyMembers = new ArrayList<FamilyMember>();
+        client.setFamilyMembers(familyMembers);
+        return mifosXClient.createClient(client);
     }
-    */
+    
 
 }

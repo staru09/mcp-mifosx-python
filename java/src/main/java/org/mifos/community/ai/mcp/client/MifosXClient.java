@@ -19,20 +19,19 @@
 package org.mifos.community.ai.mcp.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.ws.rs.BeanParam;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.mifos.community.ai.mcp.SearchParameters;
-import org.mifos.community.ai.mcp.dto.LegalForm;
+import org.mifos.community.ai.mcp.dto.Client;
 
 @RegisterRestClient(configKey = "mifosx")
 @ClientHeaderParam(name = "Authorization", value = "{getAuthorizationHeader}")
@@ -59,4 +58,7 @@ public interface MifosXClient {
     @Path("/fineract-provider/api/v1/clients/{clientId}")
     JsonNode getClientDetailsById(Integer clientId);
     
+    @POST
+    @Path("/fineract-provider/api/v1/clients")
+    JsonNode createClient(Client client);
 }
