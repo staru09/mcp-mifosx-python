@@ -72,7 +72,7 @@ public class MifosX {
         }                
         client.setOfficeId(1);
         client.setLegalFormId(1);
-        client.setStaff(false);
+        client.setIsStaff("false");
         client.setActive(false);        
         client.setDateFormat("yyyy-MM-dd");
         client.setLocale("en");

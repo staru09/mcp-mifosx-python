@@ -10,7 +10,7 @@ public class Client {
     
     int officeId;
     int legalFormId;
-    boolean isStaff;
+    String isStaff;
     boolean active;
     String submittedOnDate;
     String firstname;
