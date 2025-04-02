@@ -1,6 +1,5 @@
 package org.mifos.community.ai.mcp.dto;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +11,10 @@ public class Client {
     int officeId;
     int legalFormId;
     boolean isStaff;
-    boolean  active;
+    boolean active;
     String submittedOnDate;
-    String firstName;
-    String lastName;
+    String firstname;
+    String lastname;
     String emailAddress;
     String mobileNo;
     String externalId;
