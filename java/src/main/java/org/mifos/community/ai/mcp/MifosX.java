@@ -53,14 +53,14 @@ public class MifosX {
     
        
     @Tool(description = "Create a client using first name, last name, email address, mobile number and external id")
-    JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)", required = true) String firstname, 
-            @ToolArg(description = "Last Name (e.g. Doe)", required = true) String lastname,
+    JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)", required = true) String firstName, 
+            @ToolArg(description = "Last Name (e.g. Doe)", required = true) String lastName,
             @ToolArg(description = "Optional Email Address (e.g. jhon@gmail.com)", required = false) String emailAddress,
             @ToolArg(description = "Optional Mobile Number (e.g. +5215522649494)", required = false) String mobileNo,
             @ToolArg(description = "Optional External Id (e.g. Jhon)", required = false) String externalId) throws JsonProcessingException {
         Client client = new Client();
-        client.setFirstname(firstname);
-        client.setLastname(lastname);
+        client.setFirstname(firstName);
+        client.setLastname(lastName);
         if(emailAddress != null && !emailAddress.equalsIgnoreCase("")){
             client.setEmailAddress(emailAddress);
         }
