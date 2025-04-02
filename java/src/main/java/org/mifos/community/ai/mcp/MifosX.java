@@ -37,18 +37,18 @@ public class MifosX {
 
     @RestClient
     MifosXClient mifosXClient;
-    /*
+    
     @Tool(description = "Search for a specific client account and retrieve the details using client account number or client full name.")
     JsonNode getClientAccountDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
-    }*/
-    
+    }
+    /*
     @Tool(description = "Search for all the offices and retrieve them as a list.")
     JsonNode getAllOffices(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
         return mifosXClient.getOffices();
-    }
+    }*/
     
     /*
     @Tool(description = "List all the clients")
