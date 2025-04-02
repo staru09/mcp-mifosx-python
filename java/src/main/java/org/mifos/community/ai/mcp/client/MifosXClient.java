@@ -60,5 +60,5 @@ public interface MifosXClient {
     
     @POST
     @Path("/fineract-provider/api/v1/clients")
-    JsonNode createClient(Client client);
+    JsonNode createClient(String client);
 }
