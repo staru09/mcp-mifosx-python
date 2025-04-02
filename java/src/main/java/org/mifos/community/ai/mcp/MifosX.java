@@ -61,9 +61,15 @@ public class MifosX {
         Client client = new Client();
         client.setFirstname(firstname);
         client.setLastname(lastname);
-        client.setEmailAddress(emailAddress);
-        client.setMobileNo(mobileNo);
-        client.setExternalId(externalId);        
+        if(emailAddress != null && !emailAddress.equalsIgnoreCase("")){
+            client.setEmailAddress(emailAddress);
+        }
+        if(mobileNo != null && !mobileNo.equalsIgnoreCase("")){
+            client.setMobileNo(mobileNo);
+        }
+        if(mobileNo != null && !mobileNo.equalsIgnoreCase("")){
+            client.setExternalId(externalId);
+        }                
         client.setOfficeId(1);
         client.setLegalFormId(1);
         client.setStaff(false);
