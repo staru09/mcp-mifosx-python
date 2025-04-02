@@ -45,7 +45,7 @@ public class MifosX {
         return mifosXClient.searchClientByName(searchParameters);
     }
     
-    @Tool(description = "Get client details by id")
+    @Tool(description = "Get client by id")
     JsonNode getClientDetailsById(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId) {        
         return mifosXClient.getClientDetailsById(clientId);
     }
