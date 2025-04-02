@@ -56,7 +56,7 @@ public interface MifosXClient {
     JsonNode searchClientByName(@BeanParam SearchParameters filterParams);
         
     @GET
-    @Path("/fineract-provider/api/v1/client/{clientId}")
+    @Path("/fineract-provider/api/v1/clients/{clientId}")
     JsonNode getClientDetailsById(Integer clientId);
     
 }
