@@ -38,57 +38,25 @@ public class MifosX {
     @RestClient
     MifosXClient mifosXClient;
     
-    @Tool(description = "Search for a specific client account and retrieve the details using client account number or client full name.")
-    JsonNode getClientAccountDetails(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
+    @Tool(description = "Search for a client account by account number or client full name")
+    JsonNode searchClientByName(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName;
-        return mifosXClient.getClientDetails(searchParameters);
-    }
-    /*
-    @Tool(description = "Search for all the offices and retrieve them as a list.")
-    JsonNode getAllOffices(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
-        return mifosXClient.getOffices();
-    }*/
-    
-    /*
-    @Tool(description = "List all the clients")
-    JsonNode getAllClients(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
-        return mifosXClient.getClients();
+        return mifosXClient.searchClientByName(searchParameters);
     }
     
-    @Tool(description = "Get list of legal forms. "
-            + "Please ensure that when calling this tool, the input key MUST always be \"input\".")
-    List<LegalForm> getAllLegalForms(@ToolArg(description = "Tenant Name (e.g. Mifos)") String tenantName) {        
-        ObjectMapper mapper = new ObjectMapper();
-        List<LegalForm> legalForms = new ArrayList<LegalForm>();
-        LegalForm lfPerson = new LegalForm();
-        lfPerson.setId(1);
-        lfPerson.setType("Person");
-        legalForms.add(lfPerson);
-        LegalForm lfCompany = new LegalForm();
-        lfCompany.setId(2);
-        lfCompany.setType("Company");
-        legalForms.add(lfCompany);
-        return legalForms;    
-    }    
+    @Tool(description = "Get client details by id")
+    JsonNode getClientDetailsById(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId) {        
+        return mifosXClient.getClientDetailsById(clientId);
+    }
     
+    /*        
     @Tool(description = "Create a client using client first name, client last name, office id, legal form id and current date.")
     JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)") String firstname) {
         SearchParameters searchParameters = new SearchParameters();
         searchParameters.query=clientName;
         return mifosXClient.getClientDetails(searchParameters);
-    }*/
-   /*
-    public record Result(
-            String entityAccountNo,
-            String entityMobileNo,
-            String entityName,
-            Integer entityId) {
     }
-    
-    public record Results(
-            @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-            List<Result>[] clients) {
-    }*/
+    */
 
 }
