@@ -32,7 +32,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.Client;
+import org.mifos.community.ai.mcp.dto.ClientSearch;
 import org.mifos.community.ai.mcp.dto.FamilyMember;
+import org.mifos.community.ai.mcp.dto.Request;
 
 public class MifosXServer {
 
@@ -51,9 +53,19 @@ public class MifosXServer {
         return mifosXClient.getClientDetailsById(clientId);
     }
 
-    @Tool(description = "Get all clients")
-    JsonNode getAllClients(@ToolArg(description = "Client List (e.g. all)") String filter) {
-        return mifosXClient.getAllClients();
+    @Tool(description = "Retrieve clients")
+    JsonNode getAllClients(@ToolArg(description = "Search text (e.g. all)", required = false) String searchText) throws JsonProcessingException{
+
+        Request request = new Request();
+        request.setText(searchText != null ? searchText : "");
+
+        ClientSearch clientSearch = new ClientSearch();
+        clientSearch.setRequest(request);
+        clientSearch.setPage(0);
+        clientSearch.setSize(50);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String jsonClientSearch = ow.writeValueAsString(clientSearch);
+        return mifosXClient.listClients(jsonClientSearch);
     }
        
     @Tool(description = "Create a client using first name, last name, email address, mobile number and external id")
