@@ -34,7 +34,7 @@ import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.Client;
 import org.mifos.community.ai.mcp.dto.FamilyMember;
 
-public class MifosX {
+public class MifosXServer {
 
     @RestClient
     MifosXClient mifosXClient;
@@ -65,13 +65,13 @@ public class MifosX {
         Client client = new Client();
         client.setFirstname(firstName);
         client.setLastname(lastName);
-        if(emailAddress != null && !emailAddress.equalsIgnoreCase("")){
+        if(emailAddress != null){
             client.setEmailAddress(emailAddress);
         }
-        if(mobileNo != null && !mobileNo.equalsIgnoreCase("")){
+        if(mobileNo != null){
             client.setMobileNo(mobileNo);
         }
-        if(mobileNo != null && !mobileNo.equalsIgnoreCase("")){
+        if(mobileNo != null){
             client.setExternalId(externalId);
         }                
         client.setOfficeId(1);
