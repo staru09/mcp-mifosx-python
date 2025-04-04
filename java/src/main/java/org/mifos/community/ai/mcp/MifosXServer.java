@@ -42,10 +42,10 @@ public class MifosXServer {
     MifosXClient mifosXClient;
     
     @Tool(description = "Search for a client account by account number or client full name")
-    JsonNode searchClientByName(@ToolArg(description = "Full Client Name (e.g. Jhon Doe)") String clientName) {
+    JsonNode getClientByAccount(@ToolArg(description = "Client account number (e.g. 00000001)") String clientAccountNumber) {
         SearchParameters searchParameters = new SearchParameters();
-        searchParameters.query=clientName;
-        return mifosXClient.searchClient(searchParameters);
+        searchParameters.query=clientAccountNumber;
+        return mifosXClient.getClientByAccount(searchParameters);
     }
     
     @Tool(description = "Get client by id")
