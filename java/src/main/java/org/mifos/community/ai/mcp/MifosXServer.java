@@ -52,7 +52,7 @@ public class MifosXServer {
     }
 
     @Tool(description = "Get all clients")
-    JsonNode getAllClients() {
+    JsonNode getAllClients(@ToolArg(description = "Client List (e.g. all)") String filter) {
         return mifosXClient.getAllClients();
     }
        

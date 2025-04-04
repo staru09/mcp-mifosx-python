@@ -66,6 +66,6 @@ public interface MifosXClient {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/fineract-provider/api/v2/search")
+    @Path("/fineract-provider/api/v1/clients")
     JsonNode getAllClients();
 }
