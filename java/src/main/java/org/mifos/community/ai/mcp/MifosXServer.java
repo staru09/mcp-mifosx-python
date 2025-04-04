@@ -32,8 +32,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.Client;
-import org.mifos.community.ai.mcp.dto.ClientSearchRequest;
+import org.mifos.community.ai.mcp.dto.ClientSearch;
 import org.mifos.community.ai.mcp.dto.FamilyMember;
+import org.mifos.community.ai.mcp.dto.Request;
 
 public class MifosXServer {
 
@@ -52,21 +53,19 @@ public class MifosXServer {
         return mifosXClient.getClientDetailsById(clientId);
     }
 
-    @Tool(description = "Get all clients")
-    JsonNode getAllClients(@ToolArg(description = "Filter Client List (e.g. all)", required = false) String filter,
-                           @ToolArg(description = "Page number (e.g. 0)", required = false) Integer page,
-                           @ToolArg(description = "Page size (e.g. 50)", required = false) Integer size) throws JsonProcessingException{
+    @Tool(description = "Retrieve clients")
+    JsonNode getAllClients(@ToolArg(description = "Search text (e.g. all)", required = false) String searchText) throws JsonProcessingException{
 
-        ClientSearchRequest.RequestContent content = new ClientSearchRequest.RequestContent();
-        content.setText(filter != null ? filter : "");
+        Request request = new Request();
+        request.setText(searchText != null ? searchText : "");
 
-        ClientSearchRequest searchRequest = new ClientSearchRequest();
-        searchRequest.setRequest(content);
-        searchRequest.setPage(page != null ? page : 0);
-        searchRequest.setSize(size != null ? size : 50);
+        ClientSearch clientSearch = new ClientSearch();
+        clientSearch.setRequest(request);
+        clientSearch.setPage(0);
+        clientSearch.setSize(50);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String jsonClientSearchRequest = ow.writeValueAsString(searchRequest);
-        return mifosXClient.getAllClients(jsonClientSearchRequest);
+        String jsonClientSearch = ow.writeValueAsString(clientSearch);
+        return mifosXClient.listClients(jsonClientSearch);
     }
        
     @Tool(description = "Create a client using first name, last name, email address, mobile number and external id")
