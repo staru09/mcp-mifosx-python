@@ -50,7 +50,11 @@ public class MifosXServer {
     JsonNode getClientDetailsById(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId) {        
         return mifosXClient.getClientDetailsById(clientId);
     }
-    
+
+    @Tool(description = "Get all clients")
+    JsonNode getAllClients() {
+        return mifosXClient.getAllClients();
+    }
        
     @Tool(description = "Create a client using first name, last name, email address, mobile number and external id")
     JsonNode createClient(@ToolArg(description = "First Name (e.g. Jhon)", required = true) String firstName, 
