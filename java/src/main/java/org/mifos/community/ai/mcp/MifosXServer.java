@@ -54,7 +54,7 @@ public class MifosXServer {
     }
 
     @Tool(description = "List clients")
-    JsonNode list_clients(@ToolArg(description = "Search text (e.g. all)", required = false) String searchText) throws JsonProcessingException{
+    JsonNode listClients(@ToolArg(description = "Optional search text (e.g. John)", required = false) String searchText) throws JsonProcessingException{
 
         Request request = new Request();
         request.setText(searchText != null ? searchText : "");
