@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.Client;
+import org.mifos.community.ai.mcp.dto.ClientSearchRequest;
 import org.mifos.community.ai.mcp.dto.FamilyMember;
 
 public class MifosXServer {
@@ -52,8 +53,20 @@ public class MifosXServer {
     }
 
     @Tool(description = "Get all clients")
-    JsonNode getAllClients(@ToolArg(description = "Client List (e.g. all)") String filter) {
-        return mifosXClient.getAllClients();
+    JsonNode getAllClients(@ToolArg(description = "Filter Client List (e.g. all)", required = false) String filter,
+                           @ToolArg(description = "Page number (e.g. 0)", required = false) Integer page,
+                           @ToolArg(description = "Page size (e.g. 50)", required = false) Integer size) throws JsonProcessingException{
+
+        ClientSearchRequest.RequestContent content = new ClientSearchRequest.RequestContent();
+        content.setText(filter != null ? filter : "");
+
+        ClientSearchRequest searchRequest = new ClientSearchRequest();
+        searchRequest.setRequest(content);
+        searchRequest.setPage(page != null ? page : 0);
+        searchRequest.setSize(size != null ? size : 50);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String jsonClientSearchRequest = ow.writeValueAsString(searchRequest);
+        return mifosXClient.getAllClients(jsonClientSearchRequest);
     }
        
     @Tool(description = "Create a client using first name, last name, email address, mobile number and external id")
