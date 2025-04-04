@@ -53,8 +53,8 @@ public class MifosXServer {
         return mifosXClient.getClientDetailsById(clientId);
     }
 
-    @Tool(description = "Retrieve clients")
-    JsonNode getAllClients(@ToolArg(description = "Search text (e.g. all)", required = false) String searchText) throws JsonProcessingException{
+    @Tool(description = "List clients")
+    JsonNode listClients(@ToolArg(description = "Search text (e.g. all)", required = false) String searchText) throws JsonProcessingException{
 
         Request request = new Request();
         request.setText(searchText != null ? searchText : "");
