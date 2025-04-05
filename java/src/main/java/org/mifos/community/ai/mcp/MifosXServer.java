@@ -121,6 +121,12 @@ public class MifosXServer {
             @ToolArg(description = "Date of Birth (e.g. 2020-01-01)") String dateOfBirth,
             @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
+        if (middleName == null) middleName = "";
+        if (qualification == null) qualification = "";
+        if (isDependent == null) isDependent = "false";
+        if (professionId == null) professionId = 1;
+
+
         FamilyMember familyMember = new FamilyMember();
         familyMember.setFirstName(firstName);
         familyMember.setMiddleName(middleName);
@@ -130,7 +136,7 @@ public class MifosXServer {
         familyMember.setIsDependent(false);
         familyMember.setRelationshipId(17);
         familyMember.setGenderId(15);
-        familyMember.setProfessionId(professionId);
+        familyMember.setProfessionId(null);
         familyMember.setMaritalStatusId(maritalStatusId);
         familyMember.setDateOfBirth(dateOfBirth);
         familyMember.setDateFormat("dd MMMM yyyy");
