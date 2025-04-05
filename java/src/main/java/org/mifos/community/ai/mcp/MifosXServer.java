@@ -173,16 +173,16 @@ public class MifosXServer {
         }
         switch (relationship.toLowerCase()){
             case "friend":
-                familyMember.setRelationship(17);
+                familyMember.setRelationshipId(17);
                 break;
             case "father":
-                familyMember.setRelationship(25);
+                familyMember.setRelationshipId(25);
                 break;
             case "mother":
-                familyMember.setRelationship(26);
+                familyMember.setRelationshipId(26);
                 break;
             default:
-                familyMember.setRelationship(17);
+                familyMember.setRelationshipId(17);
                 break;
         }
 
