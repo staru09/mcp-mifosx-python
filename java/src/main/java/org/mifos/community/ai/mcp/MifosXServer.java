@@ -111,7 +111,7 @@ public class MifosXServer {
             @ToolArg(description = "First Name (e.g. Jhon)") String firstName,
             @ToolArg(description = "Middle Name (e.g. Cena)", required = false) String middleName,
             @ToolArg(description = "Last Name (e.g. Doe)") String lastName,
-            @ToolArg(description = "Qualification (e.g. MBA), required = false") String qualification,
+            @ToolArg(description = "Qualification (e.g. MBA)", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
             @ToolArg(description = "Is Dependent (e.g. true)", required = false) String isDependent,
             @ToolArg(description = "Relationship (e.g. 1)") Integer relationshipId,
