@@ -115,10 +115,10 @@ public class MifosXServer {
             @ToolArg(description = "Qualification (e.g. MBA)", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
             @ToolArg(description = "Is Dependent (e.g. true)", required = false) String isDependent,
-            @ToolArg(description = "Relationship (e.g. 1)") String relationship,
-            @ToolArg(description = "Gender ID (e.g. 1)", required = false) String gender,
-            @ToolArg(description = "Profession Id (e.g. 1)", required = false) Integer professionId,
-            @ToolArg(description = "Marital Status Id (e.g. 1)", required = false) String maritalStatus,
+            @ToolArg(description = "Relationship (e.g. friend)") String relationship,
+            @ToolArg(description = "Gender (e.g. male)", required = false) String gender,
+            @ToolArg(description = "Profession (e.g. unemployed)", required = false) String profession,
+            @ToolArg(description = "Marital Status (e.g. married)", required = false) String maritalStatus,
             @ToolArg(description = "Date of Birth (e.g. 2020-01-01)") String dateOfBirth,
             @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
@@ -142,13 +142,20 @@ public class MifosXServer {
         else {
             familyMember.setIsDependent("false");
         }
-        if (professionId != null) {
-            familyMember.setProfessionId(professionId);
-        }
-        else {
-            familyMember.setProfessionId(24);
-        }
 
+        switch (profession.toLowerCase()) {
+            case "unemployed": {
+                familyMember.setProfessionId(24);
+                break;
+            }
+            case "student": {
+                familyMember.setProfessionId(30);
+            }
+            break;
+            default:
+                familyMember.setProfessionId(24);
+            break;
+        }
         switch (gender.toLowerCase()){
             case "male":
                 familyMember.setGenderId(15);
