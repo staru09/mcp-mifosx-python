@@ -127,14 +127,26 @@ public class MifosXServer {
         if (middleName != null) {
             familyMember.setMiddleName(middleName);
         }
+        else {
+            familyMember.setMiddleName("");
+        }
         if (qualification != null) {
             familyMember.setQualification(qualification);
+        }
+        else {
+            familyMember.setQualification("");
         }
         if (isDependent != null) {
             familyMember.setIsDependent(isDependent);
         }
+        else {
+            familyMember.setIsDependent("false");
+        }
         if (professionId != null) {
             familyMember.setProfessionId(professionId);
+        }
+        else {
+            familyMember.setProfessionId(24);
         }
         familyMember.setFirstName(firstName);
         familyMember.setLastName(lastName);
