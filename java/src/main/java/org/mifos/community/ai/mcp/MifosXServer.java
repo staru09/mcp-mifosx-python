@@ -133,7 +133,7 @@ public class MifosXServer {
         familyMember.setLastName(lastName);
         familyMember.setQualification(qualification);
         familyMember.setAge(age);
-        familyMember.setIsDependent(false);
+        familyMember.setIsDependent("false");
         familyMember.setRelationshipId(17);
         familyMember.setGenderId(15);
         familyMember.setProfessionId(null);
