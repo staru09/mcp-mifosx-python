@@ -158,6 +158,7 @@ public class MifosXServer {
                 break;
             default:
                 familyMember.setGenderId(29);
+                break;
         }
         switch (maritalStatus.toLowerCase()){
             case "single":
