@@ -18,6 +18,7 @@
  */
 package org.mifos.community.ai.mcp;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -144,7 +145,9 @@ public class MifosXServer {
         familyMember.setDateOfBirth(dateOfBirth);
         familyMember.setDateFormat("dd MMMM yyyy");
         familyMember.setLocale("en");
-
-        return mifosXClient.addFamilyMember(clientId, familyMember);
+        ObjectMapper ow = new ObjectMapper();
+        ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String jsonClient = ow.writeValueAsString(familyMember);
+        return mifosXClient.addFamilyMember(clientId, jsonClient);
     }
 }
