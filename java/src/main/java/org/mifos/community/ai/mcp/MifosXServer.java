@@ -106,7 +106,7 @@ public class MifosXServer {
         return mifosXClient.createClient(jsonClient);
     }
     
-    @Tool(description = "Add a family member to a client by his account number. Required fields: firstName, lastName, age, relationshipId, genderId, dateOfBirth," +
+    @Tool(description = "Add a family member to a client by his account number. Required fields: firstName, lastName, age, relationship, genderId, dateOfBirth," +
             " middleName, qualification, isDependent, professionId, maritalStatusId, dateFormat, locale")
     JsonNode addFamilyMember(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
             @ToolArg(description = "First Name (e.g. Jhon)") String firstName,
@@ -115,7 +115,7 @@ public class MifosXServer {
             @ToolArg(description = "Qualification (e.g. MBA)", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
             @ToolArg(description = "Is Dependent (e.g. true)", required = false) String isDependent,
-            @ToolArg(description = "Relationship (e.g. 1)") Integer relationshipId,
+            @ToolArg(description = "Relationship (e.g. 1)") String relationship,
             @ToolArg(description = "Gender ID (e.g. 1)", required = false) Integer genderId,
             @ToolArg(description = "Profession Id (e.g. 1)", required = false) Integer professionId,
             @ToolArg(description = "Marital Status Id (e.g. 1)", required = false) Integer maritalStatusId,
@@ -148,10 +148,25 @@ public class MifosXServer {
         else {
             familyMember.setProfessionId(24);
         }
+
+        switch (relationship.toLowerCase()){
+            case "friend":
+                familyMember.setRelationship(17);
+                break;
+            case "father":
+                familyMember.setRelationship(25);
+                break;
+            case "mother":
+                familyMember.setRelationship(26);
+                break;
+            default:
+                familyMember.setRelationship(17);
+                break;
+        }
+
         familyMember.setFirstName(firstName);
         familyMember.setLastName(lastName);
         familyMember.setAge(age);
-        familyMember.setRelationshipId(17);
         familyMember.setGenderId(15);
         familyMember.setMaritalStatusId(maritalStatusId);
         familyMember.setDateOfBirth(dateOfBirth);
