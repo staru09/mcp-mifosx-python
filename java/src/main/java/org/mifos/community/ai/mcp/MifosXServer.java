@@ -110,16 +110,16 @@ public class MifosXServer {
             " middleName, qualification, isDependent, professionId, maritalStatusId, dateFormat, locale")
     JsonNode addFamilyMember(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
             @ToolArg(description = "First Name (e.g. Jhon)") String firstName,
-            @ToolArg(description = "Middle Name (e.g. Cena)", required = false) String middleName,
+            @ToolArg(description = "Middle Name (e.g. Cena), replace with \"\" if not provided", required = false) String middleName,
             @ToolArg(description = "Last Name (e.g. Doe)") String lastName,
-            @ToolArg(description = "Qualification (e.g. MBA)", required = false) String qualification,
+            @ToolArg(description = "Qualification (e.g. MBA), replace with \"\" if not provided", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
-            @ToolArg(description = "Is Dependent (e.g. true)", required = false) String isDependent,
+            @ToolArg(description = "Is Dependent (e.g. true), replace with \"\" if not provided", required = false) String isDependent,
             @ToolArg(description = "Relationship (e.g. friend)") String relationship,
-            @ToolArg(description = "Gender (e.g. male)", required = false) String gender,
-            @ToolArg(description = "Profession (e.g. unemployed)", required = false) String profession,
-            @ToolArg(description = "Marital Status (e.g. married)", required = false) String maritalStatus,
-            @ToolArg(description = "Date of Birth (e.g. 2020-01-01)") String dateOfBirth,
+            @ToolArg(description = "Gender (e.g. male), replace with \"\" if not provided", required = false) String gender,
+            @ToolArg(description = "Profession (e.g. unemployed), replace with \"\" if not provided", required = false) String profession,
+            @ToolArg(description = "Marital Status (e.g. married), replace with \"\" if not provided", required = false) String maritalStatus,
+            @ToolArg(description = "Date of Birth (e.g. 03 June 2003)") String dateOfBirth,
             @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
         FamilyMember familyMember = new FamilyMember();
@@ -144,13 +144,11 @@ public class MifosXServer {
         }
 
         switch (profession.toLowerCase()) {
-            case "unemployed": {
+            case "unemployed":
                 familyMember.setProfessionId(24);
                 break;
-            }
-            case "student": {
+            case "student":
                 familyMember.setProfessionId(30);
-            }
             break;
             default:
                 familyMember.setProfessionId(24);
