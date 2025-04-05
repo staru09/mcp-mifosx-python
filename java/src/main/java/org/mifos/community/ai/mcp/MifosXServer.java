@@ -40,7 +40,7 @@ public class MifosXServer {
 
     @RestClient
     MifosXClient mifosXClient;
-    
+
     @Tool(description = "Search for a client account by account number or client full name")
     JsonNode getClientByAccount(@ToolArg(description = "Client account number (e.g. 00000001)") String clientAccountNumber) {
         SearchParameters searchParameters = new SearchParameters();
@@ -53,7 +53,8 @@ public class MifosXServer {
         return mifosXClient.getClientDetailsById(clientId);
     }
 
-    @Tool(description = "List out clients")
+    @Tool(description = "List out " +
+            "clients")
     JsonNode listClients(@ToolArg(description = "Optional search text (e.g. John)", required = false) String searchText) throws JsonProcessingException{
 
         Request request = new Request();
@@ -104,5 +105,37 @@ public class MifosXServer {
         return mifosXClient.createClient(jsonClient);
     }
     
+    @Tool(description = "Add a family member to a client by his account number. Required fields: firstName, lastName, age, relationshipId, genderId, dateOfBirth," +
+            " middleName, qualification, isDependent, professionId, maritalStatusId, dateFormat, locale")
+    JsonNode addFamilyMember(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
+            @ToolArg(description = "First Name (e.g. Jhon)") String firstName,
+            @ToolArg(description = "Middle Name (e.g. Cena)", required = false) String middleName,
+            @ToolArg(description = "Last Name (e.g. Doe)") String lastName,
+            @ToolArg(description = "Qualification (e.g. MBA), required = false") String qualification,
+            @ToolArg(description = "Age (e.g. 25)") Integer age,
+            @ToolArg(description = "Is Dependent (e.g. true)", required = false) String isDependent,
+            @ToolArg(description = "Relationship (e.g. 1)") Integer relationshipId,
+            @ToolArg(description = "Gender ID (e.g. 1)", required = false) Integer genderId,
+            @ToolArg(description = "Profession Id (e.g. 1)", required = false) Integer professionId,
+            @ToolArg(description = "Marital Status Id (e.g. 1)", required = false) Integer maritalStatusId,
+            @ToolArg(description = "Date of Birth (e.g. 2020-01-01)") String dateOfBirth,
+            @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
+            @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
+        FamilyMember familyMember = new FamilyMember();
+        familyMember.setFirstName(firstName);
+        familyMember.setMiddleName(middleName);
+        familyMember.setLastName(lastName);
+        familyMember.setQualification(qualification);
+        familyMember.setAge(age);
+        familyMember.setIsDependent(false);
+        familyMember.setRelationshipId(17);
+        familyMember.setGenderId(15);
+        familyMember.setProfessionId(professionId);
+        familyMember.setMaritalStatusId(maritalStatusId);
+        familyMember.setDateOfBirth(dateOfBirth);
+        familyMember.setDateFormat("dd MMMM yyyy");
+        familyMember.setLocale("en");
 
+        return mifosXClient.addFamilyMember(clientId, familyMember);
+    }
 }

@@ -32,6 +32,7 @@ import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.mifos.community.ai.mcp.SearchParameters;
 import org.mifos.community.ai.mcp.dto.Client;
+import org.mifos.community.ai.mcp.dto.FamilyMember;
 
 @RegisterRestClient(configKey = "mifosx")
 @ClientHeaderParam(name = "Authorization", value = "{getAuthorizationHeader}")
@@ -69,4 +70,10 @@ public interface MifosXClient {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/fineract-provider/api/v2/clients/search")
     JsonNode listClients(String searchText);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/fineract-provider/api/v1/clients/{clientId}/familymembers")
+    JsonNode addFamilyMember(Integer clientId, FamilyMember familyMember);
 }
