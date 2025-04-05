@@ -16,7 +16,7 @@ public class FamilyMember {
     String qualification;
     Integer age;
     String isDependent;
-    Integer relationship;
+    Integer relationshipId;
     Integer genderId;
     Integer professionId;
     Integer maritalStatusId;
