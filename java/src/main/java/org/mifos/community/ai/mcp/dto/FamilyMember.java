@@ -10,5 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FamilyMember {
-    String name;
+    String firstName;
+    String middleName;
+    String lastName;
+    String qualification;
+    Integer age;
+    Boolean isDependent;
+    Integer relationshipId;
+    Integer genderId;
+    Integer professionId;
+    Integer maritalStatusId;
+    String dateOfBirth;
+    String dateFormat;
+    String locale;
 }
