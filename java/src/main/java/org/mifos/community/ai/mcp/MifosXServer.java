@@ -116,9 +116,9 @@ public class MifosXServer {
             @ToolArg(description = "Age (e.g. 25)") Integer age,
             @ToolArg(description = "Is Dependent (e.g. true)", required = false) String isDependent,
             @ToolArg(description = "Relationship (e.g. 1)") String relationship,
-            @ToolArg(description = "Gender ID (e.g. 1)", required = false) Integer genderId,
+            @ToolArg(description = "Gender ID (e.g. 1)", required = false) String gender,
             @ToolArg(description = "Profession Id (e.g. 1)", required = false) Integer professionId,
-            @ToolArg(description = "Marital Status Id (e.g. 1)", required = false) Integer maritalStatusId,
+            @ToolArg(description = "Marital Status Id (e.g. 1)", required = false) String maritalStatus,
             @ToolArg(description = "Date of Birth (e.g. 2020-01-01)") String dateOfBirth,
             @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
@@ -149,6 +149,27 @@ public class MifosXServer {
             familyMember.setProfessionId(24);
         }
 
+        switch (gender.toLowerCase()){
+            case "male":
+                familyMember.setGenderId(15);
+                break;
+            case "female":
+                familyMember.setGenderId(17);
+                break;
+            default:
+                familyMember.setGenderId(29);
+        }
+        switch (maritalStatus.toLowerCase()){
+            case "single":
+                familyMember.setMaritalStatusId(27);
+                break;
+            case "married":
+                familyMember.setMaritalStatusId(28);
+                break;
+            default:
+                familyMember.setMaritalStatusId(27);
+                break;
+        }
         switch (relationship.toLowerCase()){
             case "friend":
                 familyMember.setRelationship(17);
@@ -167,8 +188,6 @@ public class MifosXServer {
         familyMember.setFirstName(firstName);
         familyMember.setLastName(lastName);
         familyMember.setAge(age);
-        familyMember.setGenderId(15);
-        familyMember.setMaritalStatusId(maritalStatusId);
         familyMember.setDateOfBirth(dateOfBirth);
         familyMember.setDateFormat("dd MMMM yyyy");
         familyMember.setLocale("en");
