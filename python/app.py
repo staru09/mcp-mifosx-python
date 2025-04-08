@@ -61,3 +61,5 @@ def create_loan(loan_data: dict):
 if __name__ == '__main__':
 
     mcp.run()
+
+## RUN IT WITH mcp dev app.py 
