@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
-import requests
 import os
 import base64
+import requests
+from flask import request, jsonify
+from mcp.server.fastmcp import FastMCP
 
-app = Flask(__name__)
+# Initialize the MCP server
+mcp = FastMCP("Fineract MCP Server")
 
 # Load configuration from environment variables
 FINERACT_BASE_URL = os.getenv("FINERACT_BASE_URL", "https://sandbox.mifos.community/fineract-provider/api/v1")
@@ -20,42 +22,42 @@ headers = {
     "Fineract-Platform-TenantId": FINERACT_TENANT_ID,
     "Authorization": basic_auth,
 }
-
-@app.route('/clients', methods=['GET'])
-def list_clients():
-    offset = request.args.get('offset', 0)
-    limit = request.args.get('limit', 20)
+@mcp.tool()
+def list_clients(offset: int = 0, limit: int = 20):
+    """Retrieve a list of clients from Fineract."""
     response = requests.get(f"{FINERACT_BASE_URL}/clients", headers=headers, params={'offset': offset, 'limit': limit})
-    return jsonify(response.json())
+    return response.json()
 
-@app.route('/clients/<int:client_id>', methods=['GET'])
-def get_client(client_id):
+@mcp.tool()
+def get_client(client_id: int):
+    """Retrieve details of a specific client."""
     response = requests.get(f"{FINERACT_BASE_URL}/clients/{client_id}", headers=headers)
-    return jsonify(response.json())
+    return response.json()
 
-@app.route('/clients', methods=['POST'])
-def create_client():
-    client_data = request.json
+@mcp.tool()
+def create_client(client_data: dict):
+    """Create a new client in Fineract."""
     response = requests.post(f"{FINERACT_BASE_URL}/clients", headers=headers, json=client_data)
-    return jsonify(response.json())
+    return response.json()
 
-@app.route('/loans', methods=['GET'])
-def list_loans():
-    offset = request.args.get('offset', 0)
-    limit = request.args.get('limit', 20)
+@mcp.tool()
+def list_loans(offset: int = 0, limit: int = 20):
+    """Retrieve a list of loans from Fineract."""
     response = requests.get(f"{FINERACT_BASE_URL}/loans", headers=headers, params={'offset': offset, 'limit': limit})
-    return jsonify(response.json())
+    return response.json()
 
-@app.route('/loans/<int:loan_id>', methods=['GET'])
-def get_loan(loan_id):
+@mcp.tool()
+def get_loan(loan_id: int):
+    """Retrieve details of a specific loan."""
     response = requests.get(f"{FINERACT_BASE_URL}/loans/{loan_id}", headers=headers)
-    return jsonify(response.json())
+    return response.json()
 
-@app.route('/loans', methods=['POST'])
-def create_loan():
-    loan_data = request.json
+@mcp.tool()
+def create_loan(loan_data: dict):
+    """Create a new loan in Fineract."""
     response = requests.post(f"{FINERACT_BASE_URL}/loans", headers=headers, json=loan_data)
-    return jsonify(response.json())
+    return response.json()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000,debug=True)
+
+    mcp.run()
