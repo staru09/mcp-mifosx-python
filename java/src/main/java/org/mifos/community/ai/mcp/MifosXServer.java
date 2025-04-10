@@ -33,10 +33,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.mifos.community.ai.mcp.client.MifosXClient;
-import org.mifos.community.ai.mcp.dto.Client;
-import org.mifos.community.ai.mcp.dto.ClientSearch;
-import org.mifos.community.ai.mcp.dto.FamilyMember;
-import org.mifos.community.ai.mcp.dto.Request;
+import org.mifos.community.ai.mcp.dto.*;
 
 public class MifosXServer {
 
@@ -76,7 +73,7 @@ public class MifosXServer {
             @ToolArg(description = "Last Name (e.g. Doe)", required = true) String lastName,
             @ToolArg(description = "Optional Email Address (e.g. jhon@gmail.com)", required = false) String emailAddress,
             @ToolArg(description = "Optional Mobile Number (e.g. +5215522649494)", required = false) String mobileNo,
-            @ToolArg(description = "Optional External Id (e.g. Jhon)", required = false) String externalId) throws JsonProcessingException {
+            @ToolArg(description = "Optional External Id (e.g. VR12)", required = false) String externalId) throws JsonProcessingException {
         Client client = new Client();
         client.setFirstname(firstName);
         client.setLastname(lastName);
@@ -106,7 +103,36 @@ public class MifosXServer {
         String jsonClient = ow.writeValueAsString(client);
         return mifosXClient.createClient(jsonClient);
     }
-    
+
+    @Tool(description = "Add an address to a client by his account number. Required fields: addressLine1, addressLine2, addressLine3, addressTypeId, " +
+            "city, countryId, postalCode, stateProvinceId")
+    JsonNode addAddress(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
+                        @ToolArg(description = "Address Line 1 (e.g. 742 Evergreen Terrace)") String addressLine1,
+                        @ToolArg(description = "Address Line 2 (optional, e.g. Apt 2B)", required = false) String addressLine2,
+                        @ToolArg(description = "Address Line 3 (optional, e.g. Floor 3)", required = false) String addressLine3,
+                        @ToolArg(description = "Address Type Id (e.g. 18)", required = false) Integer addressTypeId,
+                        @ToolArg(description = "City (e.g. Springfield)") String city,
+                        @ToolArg(description = "Country Id (e.g. 1)", required = false) Integer countryId,
+                        @ToolArg(description = "Postal Code (e.g. 12345)") String postalCode,
+                        @ToolArg(description = "State/Province Id (e.g. 20)", required = false) Integer stateProvinceId) throws JsonProcessingException {
+        Address address = new Address();
+
+        address.setAddressLine1(Optional.ofNullable(addressLine1).orElse(""));
+        address.setAddressLine2(Optional.ofNullable(addressLine2).orElse(""));
+        address.setAddressLine3(Optional.ofNullable(addressLine3).orElse(""));
+        address.setAddressTypeId(18);
+        address.setCity(city);
+        address.setCountryId(22); //Valor de prueba se va a cambiar
+        address.setPostalCode(postalCode);
+        address.setStateProvinceId(20);
+
+        ObjectMapper ow = new ObjectMapper();
+        ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String jsonAddress = ow.writeValueAsString(address);
+
+        return mifosXClient.addAddress(clientId,address.getAddressTypeId(),jsonAddress);
+    }
+
     @Tool(description = "Add a family member to a client by his account number. Required fields: firstName, lastName, age, relationship, genderId, dateOfBirth," +
             " middleName, qualification, isDependent, professionId, maritalStatusId, dateFormat, locale")
     JsonNode addFamilyMember(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
@@ -140,39 +166,40 @@ public class MifosXServer {
         ObjectMapper ow = new ObjectMapper();
         ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String jsonClient = ow.writeValueAsString(familyMember);
+
         return mifosXClient.addFamilyMember(clientId, jsonClient);
     }
 
     private int getProfessionId(String profession) {
         switch (profession.toLowerCase()) {
             case "unemployed":
-                return 24;
+                return 19;
             case "student":
-                return 30;
+                return 20;
             default:
-                return 24;
+                return 19;
         }
     }
 
     private int getGenderId(String gender) {
         switch (gender.toLowerCase()) {
             case "male":
-                return 15;
+                return 21;
             case "female":
-                return 17;
+                return 22;
             default:
-                return 29;
+                return 25;
         }
     }
 
     private int getMaritalStatusId(String maritalStatus) {
         switch (maritalStatus.toLowerCase()) {
             case "single":
-                return 27;
+                return 23;
             case "married":
-                return 28;
+                return 24;
             default:
-                return 27;
+                return 23;
         }
     }
 }
