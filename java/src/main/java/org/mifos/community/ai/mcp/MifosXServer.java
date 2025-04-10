@@ -31,6 +31,7 @@ import io.quarkiverse.mcp.server.ToolArg;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.Client;
 import org.mifos.community.ai.mcp.dto.ClientSearch;
@@ -114,7 +115,7 @@ public class MifosXServer {
             @ToolArg(description = "Last Name (e.g. Doe)") String lastName,
             @ToolArg(description = "Qualification (e.g. MBA), replace with \"\" if not provided", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
-            @ToolArg(description = "Is Dependent (e.g. true), replace with \"\" if not provided", required = false) String isDependent,
+            @ToolArg(description = "Is Dependent (e.g. \"true\"), replace with \"\" if not provided", required = false) String isDependent,
             @ToolArg(description = "Relationship (e.g. friend)") String relationship,
             @ToolArg(description = "Gender (e.g. male), replace with \"\" if not provided", required = false) String gender,
             @ToolArg(description = "Profession (e.g. unemployed), replace with \"\" if not provided", required = false) String profession,
@@ -124,73 +125,12 @@ public class MifosXServer {
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
         FamilyMember familyMember = new FamilyMember();
 
-        if (middleName != null) {
-            familyMember.setMiddleName(middleName);
-        }
-        else {
-            familyMember.setMiddleName("");
-        }
-        if (qualification != null) {
-            familyMember.setQualification(qualification);
-        }
-        else {
-            familyMember.setQualification("");
-        }
-        if (isDependent != null) {
-            familyMember.setIsDependent(isDependent);
-        }
-        else {
-            familyMember.setIsDependent("false");
-        }
-
-        switch (profession.toLowerCase()) {
-            case "unemployed":
-                familyMember.setProfessionId(24);
-                break;
-            case "student":
-                familyMember.setProfessionId(30);
-            break;
-            default:
-                familyMember.setProfessionId(24);
-            break;
-        }
-        switch (gender.toLowerCase()){
-            case "male":
-                familyMember.setGenderId(15);
-                break;
-            case "female":
-                familyMember.setGenderId(17);
-                break;
-            default:
-                familyMember.setGenderId(29);
-                break;
-        }
-        switch (maritalStatus.toLowerCase()){
-            case "single":
-                familyMember.setMaritalStatusId(27);
-                break;
-            case "married":
-                familyMember.setMaritalStatusId(28);
-                break;
-            default:
-                familyMember.setMaritalStatusId(27);
-                break;
-        }
-        switch (relationship.toLowerCase()){
-            case "friend":
-                familyMember.setRelationshipId(17);
-                break;
-            case "father":
-                familyMember.setRelationshipId(25);
-                break;
-            case "mother":
-                familyMember.setRelationshipId(26);
-                break;
-            default:
-                familyMember.setRelationshipId(17);
-                break;
-        }
-
+        familyMember.setMiddleName(Optional.ofNullable(middleName).orElse(""));
+        familyMember.setQualification(Optional.ofNullable(qualification).orElse(""));
+        familyMember.setIsDependent(Optional.ofNullable(isDependent).orElse("false"));
+        familyMember.setProfessionId(getProfessionId(Optional.ofNullable(profession).orElse("")));
+        familyMember.setGenderId(getGenderId(Optional.ofNullable(gender).orElse("")));
+        familyMember.setMaritalStatusId(getMaritalStatusId(Optional.ofNullable(maritalStatus).orElse("")));
         familyMember.setFirstName(firstName);
         familyMember.setLastName(lastName);
         familyMember.setAge(age);
@@ -201,5 +141,38 @@ public class MifosXServer {
         ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String jsonClient = ow.writeValueAsString(familyMember);
         return mifosXClient.addFamilyMember(clientId, jsonClient);
+    }
+
+    private int getProfessionId(String profession) {
+        switch (profession.toLowerCase()) {
+            case "unemployed":
+                return 24;
+            case "student":
+                return 30;
+            default:
+                return 24;
+        }
+    }
+
+    private int getGenderId(String gender) {
+        switch (gender.toLowerCase()) {
+            case "male":
+                return 15;
+            case "female":
+                return 17;
+            default:
+                return 29;
+        }
+    }
+
+    private int getMaritalStatusId(String maritalStatus) {
+        switch (maritalStatus.toLowerCase()) {
+            case "single":
+                return 27;
+            case "married":
+                return 28;
+            default:
+                return 27;
+        }
     }
 }
