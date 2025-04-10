@@ -13,5 +13,5 @@ public class Address {
     String city;
     Integer countryId;
     String postalCode;
-    String stateProvinceId;
+    Integer stateProvinceId;
 }

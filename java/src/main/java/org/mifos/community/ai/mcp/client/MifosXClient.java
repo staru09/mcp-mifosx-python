@@ -19,18 +19,14 @@
 package org.mifos.community.ai.mcp.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import jakarta.ws.rs.BeanParam;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.mifos.community.ai.mcp.SearchParameters;
+import org.mifos.community.ai.mcp.dto.Address;
 import org.mifos.community.ai.mcp.dto.Client;
 import org.mifos.community.ai.mcp.dto.FamilyMember;
 
@@ -70,6 +66,14 @@ public interface MifosXClient {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/fineract-provider/api/v2/clients/search")
     JsonNode listClients(String searchText);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/fineract-provider/api/v1/client/{clientId}/addresses")
+    JsonNode addAddress(@PathParam("clientId") Integer clientId,
+                        @QueryParam("type") Integer addressTypeId,
+                        String address);
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
