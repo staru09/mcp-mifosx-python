@@ -71,7 +71,7 @@ public interface MifosXClient {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/fineract-provider/api/v1/client/{clientId}/addresses")
-    JsonNode addAddress(@PathParam("clientId") Integer clientId,
+    JsonNode addAddress(Integer clientId,
                         @QueryParam("type") Integer addressTypeId,
                         String address);
 
