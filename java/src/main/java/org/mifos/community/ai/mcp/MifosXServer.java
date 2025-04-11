@@ -141,7 +141,7 @@ public class MifosXServer {
             @ToolArg(description = "Last Name (e.g. Doe)") String lastName,
             @ToolArg(description = "Qualification (e.g. MBA), replace with \"\" if not provided", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
-            @ToolArg(description = "Is Dependent (e.g. \"true\"), replace with \"\" if not provided", required = false) String isDependent,
+            @ToolArg(description = "Is Dependent (e.g. \"Dependent\"), replace with \"\" if not provided", required = false) String isDependent,
             @ToolArg(description = "Relationship (e.g. friend)") String relationship,
             @ToolArg(description = "Gender (e.g. male), replace with \"\" if not provided", required = false) String gender,
             @ToolArg(description = "Profession (e.g. unemployed), replace with \"\" if not provided", required = false) String profession,
@@ -160,6 +160,7 @@ public class MifosXServer {
         familyMember.setFirstName(firstName);
         familyMember.setLastName(lastName);
         familyMember.setAge(age);
+        familyMember.setRelationshipId(25);
         familyMember.setDateOfBirth(dateOfBirth);
         familyMember.setDateFormat("dd MMMM yyyy");
         familyMember.setLocale("en");
