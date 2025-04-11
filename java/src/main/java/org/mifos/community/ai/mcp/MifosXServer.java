@@ -120,11 +120,11 @@ public class MifosXServer {
         address.setAddressLine1(Optional.ofNullable(addressLine1).orElse(""));
         address.setAddressLine2(Optional.ofNullable(addressLine2).orElse(""));
         address.setAddressLine3(Optional.ofNullable(addressLine3).orElse(""));
-        address.setAddressTypeId(18);
+        address.setAddressTypeId(15);
         address.setCity(city);
-        address.setCountryId(22); //Valor de prueba se va a cambiar
+        address.setCountryId(16); //Valor de prueba se va a cambiar
         address.setPostalCode(postalCode);
-        address.setStateProvinceId(20);
+        address.setStateProvinceId(17);
 
         ObjectMapper ow = new ObjectMapper();
         ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -173,22 +173,22 @@ public class MifosXServer {
     private int getProfessionId(String profession) {
         switch (profession.toLowerCase()) {
             case "unemployed":
-                return 19;
+                return 18;
             case "student":
-                return 20;
-            default:
                 return 19;
+            default:
+                return 18;
         }
     }
 
     private int getGenderId(String gender) {
         switch (gender.toLowerCase()) {
             case "male":
-                return 21;
+                return 20;
             case "female":
-                return 22;
+                return 21;
             default:
-                return 25;
+                return 22;
         }
     }
 
