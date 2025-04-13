@@ -26,19 +26,11 @@ This starts a local web UI to connect to your MCP server via STDIO or SSE.
 **Steps**:
 1. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install mcp[cli] uv flask
    ```
-2. Configure environment variables in `.env` (copy from `.env.example`):
+2. Run the server:
    ```bash
-   cp .env.example .env
-   ```
-3. Run the server:
-   ```bash
-   python python/app.py
-   ```
-4. Test with MCP Inspector:
-   ```bash
-   npm run inspect  # (requires Node.js installed)
+   mcp dev app.py
    ```
 
 #### **Java (Quarkus)**
