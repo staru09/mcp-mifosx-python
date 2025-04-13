@@ -164,4 +164,3 @@ For Java (Quarkus), create a native executable:
 - **MCP-compliant** with STDIO/SSE transports
 - **Environment-agnostic** configuration
 
-```
