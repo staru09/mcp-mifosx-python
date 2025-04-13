@@ -80,4 +80,19 @@ public interface MifosXClient {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/fineract-provider/api/v1/clients/{clientId}/familymembers")
     JsonNode addFamilyMember(Integer clientId, String familyMember);
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("fineract-provider/api/v1/codes")
+    JsonNode getCodes();
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("fineract-provider/api/v1/codes/{codeId}")
+    JsonNode getCodeById(Integer codeId);
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("fineract-provider/api/v1/codes/{codeId}/codevalues")
+    JsonNode getCodeValues(Integer codeId);
 }
