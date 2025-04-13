@@ -141,66 +141,50 @@ public class MifosXServer {
             @ToolArg(description = "Last Name (e.g. Doe)") String lastName,
             @ToolArg(description = "Qualification (e.g. MBA), replace with \"\" if not provided", required = false) String qualification,
             @ToolArg(description = "Age (e.g. 25)") Integer age,
-            @ToolArg(description = "Is Dependent (e.g. \"Dependent\"), replace with \"\" if not provided", required = false) String isDependent,
+            @ToolArg(description = "Is Dependent (e.g. Dependent), replace with \"\" if not provided", required = false) String isDependent,
             @ToolArg(description = "Relationship (e.g. friend)") String relationship,
-            @ToolArg(description = "Gender (e.g. male), replace with \"\" if not provided", required = false) String gender,
+            @ToolArg(description = "Gender (e.g. male)") String gender,
             @ToolArg(description = "Profession (e.g. unemployed), replace with \"\" if not provided", required = false) String profession,
-            @ToolArg(description = "Marital Status (e.g. married), replace with \"\" if not provided", required = false) String maritalStatus,
+            @ToolArg(description = "Marital Status (e.g. married)", required = false) String maritalStatus,
             @ToolArg(description = "Date of Birth (e.g. 03 June 2003)") String dateOfBirth,
             @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
         FamilyMember familyMember = new FamilyMember();
 
-        familyMember.setMiddleName(Optional.ofNullable(middleName).orElse(""));
-        familyMember.setQualification(Optional.ofNullable(qualification).orElse(""));
         familyMember.setIsDependent(Optional.ofNullable(isDependent).orElse("false"));
-        familyMember.setProfessionId(getProfessionId(Optional.ofNullable(profession).orElse("")));
-        familyMember.setGenderId(getGenderId(Optional.ofNullable(gender).orElse("")));
-        familyMember.setMaritalStatusId(getMaritalStatusId(Optional.ofNullable(maritalStatus).orElse("")));
+
+        familyMember.setRelationshipId(Optional.ofNullable(getCodeValueId(familyMember
+                .getRelationshipCodeValueId(), relationship)).orElse(familyMember.getDefaultRelationshipId()));
+        familyMember.setGenderId(Optional.ofNullable(getCodeValueId(familyMember
+                .getGenderCodeValueId(), gender)).orElse(familyMember.getDefaultGenderId()));
+
+        familyMember.setProfessionId(getCodeValueId(familyMember.getProfessionCodeValueId(), profession));
+        familyMember.setMaritalStatusId(getCodeValueId(familyMember.getMaritalStatusCodeValueId(), maritalStatus));
+
         familyMember.setFirstName(firstName);
+        familyMember.setMiddleName(Optional.ofNullable(middleName).orElse(""));
         familyMember.setLastName(lastName);
+        familyMember.setQualification(Optional.ofNullable(qualification).orElse(""));
         familyMember.setAge(age);
-        familyMember.setRelationshipId(25);
         familyMember.setDateOfBirth(dateOfBirth);
         familyMember.setDateFormat("dd MMMM yyyy");
+
         familyMember.setLocale("en");
+
         ObjectMapper ow = new ObjectMapper();
-        ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        //ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String jsonClient = ow.writeValueAsString(familyMember);
+        jsonClient = jsonClient.replace(":null", ":\"\"");
 
         return mifosXClient.addFamilyMember(clientId, jsonClient);
     }
 
-    private int getProfessionId(String profession) {
-        switch (profession.toLowerCase()) {
-            case "unemployed":
-                return 18;
-            case "student":
-                return 19;
-            default:
-                return 18;
+    private Integer getCodeValueId (Integer codeId,String codeValueName) {
+        for (JsonNode codeValue : mifosXClient.getCodeValues(codeId)) {
+            if (codeValue.get("name").asText().equalsIgnoreCase(codeValueName)) {
+                return codeValue.get("id").asInt();
+            }
         }
-    }
-
-    private int getGenderId(String gender) {
-        switch (gender.toLowerCase()) {
-            case "male":
-                return 20;
-            case "female":
-                return 21;
-            default:
-                return 22;
-        }
-    }
-
-    private int getMaritalStatusId(String maritalStatus) {
-        switch (maritalStatus.toLowerCase()) {
-            case "single":
-                return 23;
-            case "married":
-                return 24;
-            default:
-                return 23;
-        }
+        return null;
     }
 }
