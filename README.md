@@ -137,7 +137,7 @@ For Java (Quarkus), create a native executable:
 
 ## Contributing
 
-- **Python**: Modify `python/app.py` and `server.js` for new resources.
+- **Python**: Modify `python/app.py` for new resources.
 - **Java**: Extend `src/main/java/org/mifos/community/ai/...` for new endpoints.
 - **Node.js**: Update `nodejs/src/server.js` and add Zod schemas for validation.
 
