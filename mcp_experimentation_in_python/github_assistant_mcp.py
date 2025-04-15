@@ -14,7 +14,6 @@ from agno.tools.mcp import MCPTools
 from agno.models.groq import Groq
 from mcp import StdioServerParameters
 
-os.environ['OPENAI_API_KEY']=''
 os.environ['GITHUB_TOKEN']=''
 
 async def run_agent(message: str) -> None:
