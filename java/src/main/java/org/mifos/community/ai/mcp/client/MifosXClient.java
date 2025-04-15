@@ -81,6 +81,12 @@ public interface MifosXClient {
     @Path("/fineract-provider/api/v1/clients/{clientId}/familymembers")
     JsonNode addFamilyMember(Integer clientId, String familyMember);
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/fineract-provider/api/v1/loans")
+    JsonNode newLoanAccountApplication(String newLoanAccountApplication);
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("fineract-provider/api/v1/codes")
