@@ -32,13 +32,21 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Set;
+
 import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.*;
+import jakarta.inject.Inject;
+import jakarta.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 public class MifosXServer {
 
     @RestClient
     MifosXClient mifosXClient;
+    @Inject
+    Validator validator;
 
     @Tool(description = "Search for a client account by account number or client full name")
     JsonNode getClientByAccount(@ToolArg(description = "Client account number (e.g. 00000001)") String clientAccountNumber) {
@@ -104,32 +112,38 @@ public class MifosXServer {
         return mifosXClient.createClient(jsonClient);
     }
 
-    @Tool(description = "Add an address to a client by his account number. Required fields: addressLine1, addressLine2, addressLine3, addressTypeId, " +
-            "city, countryId, postalCode, stateProvinceId")
+    @Tool(description = "Add an address to a client by his account number. Required fields: address type, address line 1, address line 2, address line 3, " +
+            "city, country, postal code, state province")
     JsonNode addAddress(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
+                        @ToolArg(description = "Address Type (e.g Home)") String addressType,
                         @ToolArg(description = "Address Line 1 (e.g. 742 Evergreen Terrace)") String addressLine1,
                         @ToolArg(description = "Address Line 2 (optional, e.g. Apt 2B)", required = false) String addressLine2,
                         @ToolArg(description = "Address Line 3 (optional, e.g. Floor 3)", required = false) String addressLine3,
-                        @ToolArg(description = "Address Type Id (e.g. 18)", required = false) Integer addressTypeId,
                         @ToolArg(description = "City (e.g. Springfield)") String city,
-                        @ToolArg(description = "Country Id (e.g. 1)", required = false) Integer countryId,
-                        @ToolArg(description = "Postal Code (e.g. 12345)") String postalCode,
-                        @ToolArg(description = "State/Province Id (e.g. 20)", required = false) Integer stateProvinceId) throws JsonProcessingException {
+                        @ToolArg(description = "State/Province (e.g. México)", required = false) String stateProvince,
+                        @ToolArg(description = "Country (e.g. USA)", required = false) String country,
+                        @ToolArg(description = "Postal Code (e.g. 12345)") String postalCode) throws JsonProcessingException {
         Address address = new Address();
 
-        address.setAddressLine1(Optional.ofNullable(addressLine1).orElse(""));
+        address.setAddressTypeId(getCodeValueId(address.getAddressTypeCodeValueId(), addressType));
+        address.setAddressLine1(addressLine1);
         address.setAddressLine2(Optional.ofNullable(addressLine2).orElse(""));
         address.setAddressLine3(Optional.ofNullable(addressLine3).orElse(""));
-        address.setAddressTypeId(15);
         address.setCity(city);
-        address.setCountryId(16); //Valor de prueba se va a cambiar
+        address.setStateProvinceId(getCodeValueId(address.getStateProvinceCodeValueId(), stateProvince));
+        address.setCountryId(getCodeValueId(address.getCountryCodeValueId(), country));
         address.setPostalCode(postalCode);
-        address.setStateProvinceId(17);
 
         ObjectMapper ow = new ObjectMapper();
-        ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String jsonAddress = ow.writeValueAsString(address);
+        //ow.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
+        Set<ConstraintViolation<Address>> violations = validator.validate(address);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        String jsonAddress = ow.writeValueAsString(address);
+        jsonAddress = jsonAddress.replace(":null", ":\"\"");
         return mifosXClient.addAddress(clientId,address.getAddressTypeId(),jsonAddress);
     }
 
@@ -147,11 +161,16 @@ public class MifosXServer {
             @ToolArg(description = "Profession (e.g. unemployed), replace with \"\" if not provided", required = false) String profession,
             @ToolArg(description = "Marital Status (e.g. married)", required = false) String maritalStatus,
             @ToolArg(description = "Date of Birth (e.g. 03 June 2003)") String dateOfBirth,
-            @ToolArg(description = "Date Format (e.g. yyyy-MM-dd)",required = false) String dateFormat,
+            @ToolArg(description = "Date Format (e.g. dd MMMM yyyy)",required = false) String dateFormat,
             @ToolArg(description = "Locale (e.g. en)",required = false) String locale) throws JsonProcessingException {
         FamilyMember familyMember = new FamilyMember();
 
-        familyMember.setIsDependent(Optional.ofNullable(isDependent).orElse("false"));
+        if (isDependent.equalsIgnoreCase("dependent") || isDependent.equalsIgnoreCase("is dependent")){
+            familyMember.setIsDependent("true");
+        }
+        else {
+            familyMember.setIsDependent("false");
+        }
 
         familyMember.setRelationshipId(Optional.ofNullable(getCodeValueId(familyMember
                 .getRelationshipCodeValueId(), relationship)).orElse(familyMember.getDefaultRelationshipId()));
