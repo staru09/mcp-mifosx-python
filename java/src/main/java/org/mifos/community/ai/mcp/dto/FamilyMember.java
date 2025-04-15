@@ -29,9 +29,9 @@ public class FamilyMember {
     String locale;
 
     final Integer genderCodeValueId = 4;
-    final Integer defaultGenderId = 15;
+    final Integer defaultGenderId = 20;
     final Integer relationshipCodeValueId = 6;
-    final Integer defaultRelationshipId = 18;
+    final Integer defaultRelationshipId = 21;
     final Integer maritalStatusCodeValueId = 30;
     final Integer professionCodeValueId = 32;
 }
