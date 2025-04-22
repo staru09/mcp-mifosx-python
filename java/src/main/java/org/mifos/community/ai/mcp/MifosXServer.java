@@ -48,6 +48,7 @@ public class MifosXServer {
 
     @RestClient
     MifosXClient mifosXClient;
+    
     @Inject
     Validator validator;
 
