@@ -177,7 +177,7 @@ public class MifosXServer {
         String jsonAddress = ow.writeValueAsString(address);
         jsonAddress = jsonAddress.replace(":null", ":\"\"");
         log.info("jsonAddress: " + jsonAddress);
-        return mifosXClient.addAddress(clientId,address.getAddressTypeId(),jsonAddress);
+        return mifosXClient.addAddress(clientId,address.getAddressType(),jsonAddress);
     }
 
     @Tool(description = "Add a family member to a client by his account number. Required fields: firstName, lastName, age, relationship, genderId, dateOfBirth," +
