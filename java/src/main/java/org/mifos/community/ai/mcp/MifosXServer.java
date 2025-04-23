@@ -138,7 +138,7 @@ public class MifosXServer {
 
         ObjectMapper ow = new ObjectMapper();
         String jsonActiveClient = ow.writeValueAsString(clientActivation);
-        return mifosXClient.activateClient(clientId, jsonActiveClient);
+        return mifosXClient.activateClient(clientId, "activate",jsonActiveClient);
     }
 
     @Tool(description = "Add an address to a client by his account number. Required fields: address type, address line 1, address line 2, address line 3, " +
