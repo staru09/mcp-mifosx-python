@@ -116,7 +116,7 @@ public class MifosXServer {
         return mifosXClient.createClient(jsonClient);
     }
 
-    @Tool(description = "Activate a client account using his client account. " +
+    @Tool(description = "Activate a client using his account number. " +
             "Optionally provide an activation date. If omitted, today's date will be used.")
     JsonNode activateClient(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
                             @ToolArg(description = "Activation Date (e.g. 22 April 2025)") String activationDate)
