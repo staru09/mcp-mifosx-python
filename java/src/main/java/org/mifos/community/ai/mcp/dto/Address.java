@@ -10,11 +10,11 @@ import lombok.Setter;
 @JsonIgnoreProperties({"addressTypeCodeValueId", "countryCodeValueId", "stateProvinceCodeValueId"})
 public class Address {
     @NotNull
-    Integer addressTypeId;
-    @NotNull
     String  addressLine1;
     String  addressLine2;
     String  addressLine3;
+    @NotNull
+    Integer addressType;
     String  city;
     @NotNull
     Integer countryId;
