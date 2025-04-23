@@ -36,6 +36,7 @@ import java.time.format.DecimalStyle;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
+import org.jboss.logging.Logger;
 
 import org.mifos.community.ai.mcp.client.MifosXClient;
 import org.mifos.community.ai.mcp.dto.*;
@@ -51,6 +52,8 @@ public class MifosXServer {
     
     @Inject
     Validator validator;
+
+    private static final Logger log = Logger.getLogger(MifosXServer.class);
 
     @Tool(description = "Search for a client account by account number or client full name")
     JsonNode getClientByAccount(@ToolArg(description = "Client account number (e.g. 00000001)") String clientAccountNumber) {
@@ -173,6 +176,7 @@ public class MifosXServer {
 
         String jsonAddress = ow.writeValueAsString(address);
         jsonAddress = jsonAddress.replace(":null", ":\"\"");
+        log.info("jsonAddress: " + jsonAddress);
         return mifosXClient.addAddress(clientId,address.getAddressTypeId(),jsonAddress);
     }
 
