@@ -157,7 +157,7 @@ public class MifosXServer {
                         @ToolArg(description = "Postal Code (e.g. 12345)") String postalCode) throws JsonProcessingException {
         Address address = new Address();
 
-        address.setAddressTypeId(getCodeValueId(address.getAddressTypeCodeValueId(), addressType));
+        address.setAddressType(getCodeValueId(address.getAddressTypeCodeValueId(), addressType));
         address.setAddressLine1(addressLine1);
         address.setAddressLine2(Optional.ofNullable(addressLine2).orElse(""));
         address.setAddressLine3(Optional.ofNullable(addressLine3).orElse(""));
