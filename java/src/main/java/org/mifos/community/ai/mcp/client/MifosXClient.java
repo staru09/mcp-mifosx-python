@@ -64,6 +64,12 @@ public interface MifosXClient {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/fineract-provider/api/v1/clients/{clientId}?command=activate")
+    JsonNode activateClient(Integer clientId,String activateClient);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/fineract-provider/api/v2/clients/search")
     JsonNode listClients(String searchText);
 

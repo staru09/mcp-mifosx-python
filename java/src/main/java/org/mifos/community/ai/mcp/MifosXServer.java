@@ -116,6 +116,31 @@ public class MifosXServer {
         return mifosXClient.createClient(jsonClient);
     }
 
+    @Tool(description = "Activate a client account using his client account. " +
+            "Optionally provide an activation date. If omitted, today's date will be used.")
+    JsonNode activateClient(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
+                            @ToolArg(description = "Activation Date (e.g. 22 April 2025)") String activationDate)
+            throws JsonProcessingException {
+        ClientActivation clientActivation = new ClientActivation();
+
+        if (activationDate != null)
+        {
+            clientActivation.setActivationDate(activationDate);
+        }
+        else {
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+            String formattedDate = currentDate.format(dtf);
+            clientActivation.setActivationDate(formattedDate);
+        }
+        clientActivation.setDateFormat("dd MMMM yyyy");
+        clientActivation.setLocale("en");
+
+        ObjectMapper ow = new ObjectMapper();
+        String jsonActiveClient = ow.writeValueAsString(clientActivation);
+        return mifosXClient.activateClient(clientId, jsonActiveClient);
+    }
+
     @Tool(description = "Add an address to a client by his account number. Required fields: address type, address line 1, address line 2, address line 3, " +
             "city, country, postal code, state province")
     JsonNode addAddress(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
