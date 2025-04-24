@@ -144,13 +144,13 @@ public class MifosXServer {
         return mifosXClient.activateClient(clientId, "activate",jsonActiveClient);
     }
 
-    @Tool(description = "Add an address to a client by his account number. Required fields: address type, address line 1, address line 2, address line 3, " +
+    @Tool(description = "Add an address to a client by his account number. Required fields: address type, address, neighborhood, number, " +
             "city, country, postal code, state province")
     JsonNode addAddress(@ToolArg(description = "Client Id (e.g. 1)") Integer clientId,
                         @ToolArg(description = "Address Type (e.g Home)") String addressType,
-                        @ToolArg(description = "Address Line 1 (e.g. 742 Evergreen Terrace)") String addressLine1,
-                        @ToolArg(description = "Address Line 2 (optional, e.g. Apt 2B)", required = false) String addressLine2,
-                        @ToolArg(description = "Address Line 3 (optional, e.g. Floor 3)", required = false) String addressLine3,
+                        @ToolArg(description = "Address Line 1 (e.g. 742 Evergreen Terrace)") String adrress,
+                        @ToolArg(description = "Address Line 2 (optional, e.g. Apt 2B)", required = false) String neighborhood,
+                        @ToolArg(description = "Address Line 3 (optional, e.g. Floor 3)", required = false) String number,
                         @ToolArg(description = "City (e.g. Springfield)") String city,
                         @ToolArg(description = "State/Province (e.g. México)", required = false) String stateProvince,
                         @ToolArg(description = "Country (e.g. USA)", required = false) String country,
@@ -158,9 +158,9 @@ public class MifosXServer {
         Address address = new Address();
 
         address.setAddressType(getCodeValueId(address.getAddressTypeCodeValueId(), addressType));
-        address.setAddressLine1(addressLine1);
-        address.setAddressLine2(Optional.ofNullable(addressLine2).orElse(""));
-        address.setAddressLine3(Optional.ofNullable(addressLine3).orElse(""));
+        address.setAddressLine1(adrress);
+        address.setAddressLine2(Optional.ofNullable(neighborhood).orElse(""));
+        address.setAddressLine3(Optional.ofNullable(number).orElse(""));
         address.setCity(city);
         address.setStateProvinceId(getCodeValueId(address.getStateProvinceCodeValueId(), stateProvince));
         address.setCountryId(getCodeValueId(address.getCountryCodeValueId(), country));
@@ -225,6 +225,11 @@ public class MifosXServer {
         jsonClient = jsonClient.replace(":null", ":\"\"");
 
         return mifosXClient.addFamilyMember(clientId, jsonClient);
+    }
+
+    @Tool(description = "")
+    JsonNode createDefaultSavingProduct() throws JsonProcessingException{
+        return null;
     }
 
     @Tool(description = "Create a new loan account for a client using their account number and a loan product ID. " +

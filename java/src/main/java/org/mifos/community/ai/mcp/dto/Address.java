@@ -25,5 +25,4 @@ public class Address {
     final Integer   addressTypeCodeValueId = 29;
     final Integer   countryCodeValueId = 28;
     final Integer   stateProvinceCodeValueId = 27;
-
 }
