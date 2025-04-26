@@ -103,6 +103,11 @@ public interface MifosXClient {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("fineract-provider/api/v1/currencies")
+    JsonNode getCurrencies();
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("fineract-provider/api/v1/codes")
     JsonNode getCodes();
 
