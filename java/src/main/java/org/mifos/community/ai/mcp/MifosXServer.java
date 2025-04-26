@@ -34,6 +34,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DecimalStyle;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.jboss.logging.Logger;
@@ -52,6 +53,8 @@ public class MifosXServer {
     
     @Inject
     Validator validator;
+    @Inject
+    ObjectMapper mapper;
 
     private static final Logger log = Logger.getLogger(MifosXServer.class);
 
@@ -240,13 +243,13 @@ public class MifosXServer {
         savingProduct.setName(name);
         savingProduct.setShortName(shortName);
         savingProduct.setDescription(description);
-        savingProduct.setCurrencyCode(currency);
+        savingProduct.setCurrencyCode(getCurrencyCode(currency));
         savingProduct.setDigitsAfterDecimal(2);
         savingProduct.setInMultiplesOf(null);
         savingProduct.setNominalAnnualInterestRate(0);
         savingProduct.setInterestCompoundingPeriodType(1);
         savingProduct.setInterestPostingPeriodType(4);
-        savingProduct.setInterestCalculationDaysInYearType(1);
+        savingProduct.setInterestCalculationType(1);
         savingProduct.setInterestCalculationDaysInYearType(365);
         savingProduct.setWithdrawalFeeForTransfers("false");
         savingProduct.setEnforceMinRequiredBalance("false");
@@ -261,6 +264,12 @@ public class MifosXServer {
         savingProduct.setLocale("en");
 
         ObjectMapper ow = new ObjectMapper();
+
+        Set<ConstraintViolation<SavingProduct>> violations = validator.validate(savingProduct);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
         String jsonClient = ow.writeValueAsString(savingProduct);
         jsonClient = jsonClient.replace(":null", ":\"\"");
 
@@ -329,6 +338,26 @@ public class MifosXServer {
         jsonClient = jsonClient.replace(":null", ":\"\"");
 
         return mifosXClient.newLoanAccountApplication(jsonClient);
+    }
+
+    @Tool(description = "")
+    JsonNode newSavingAccountApplication()
+            throws JsonProcessingException {
+        return null;
+    }
+
+    private String getCurrencyCode (String currency) throws JsonProcessingException {
+        JsonNode jsonResponse = mifosXClient.getCurrencies();
+
+        CurrencyResponse response = mapper.treeToValue(jsonResponse, CurrencyResponse.class);
+        List<Currency> selected = response.getSelectedCurrencyOptions();
+
+        for (Currency c : selected) {
+            if (c.getName().equalsIgnoreCase(currency) || c.getCode().equalsIgnoreCase(currency)) {
+                return c.getCode();
+            }
+        }
+        return null;
     }
 
     private Integer getCodeValueId (Integer codeId,String codeValueName) {
