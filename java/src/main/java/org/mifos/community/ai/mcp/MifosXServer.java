@@ -264,7 +264,7 @@ public class MifosXServer {
         String jsonClient = ow.writeValueAsString(savingProduct);
         jsonClient = jsonClient.replace(":null", ":\"\"");
 
-        return mifosXClient.newLoanAccountApplication(jsonClient);
+        return mifosXClient.createDefaultSavingsProduct(jsonClient);
     }
 
     @Tool(description = "Create a new loan account for a client using their account number and a loan product ID. " +
