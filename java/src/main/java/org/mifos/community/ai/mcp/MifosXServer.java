@@ -227,9 +227,44 @@ public class MifosXServer {
         return mifosXClient.addFamilyMember(clientId, jsonClient);
     }
 
-    @Tool(description = "")
-    JsonNode createDefaultSavingProduct() throws JsonProcessingException{
-        return null;
+    @Tool(description = "Create a default savings product. " +
+            "Provide only the following inputs: name, short name, description, and currency. " +
+            "All other values will be automatically set with default configuration. " +
+            "Use this to quickly initialize standard savings products.")
+    JsonNode createDefaultSavingProduct(@ToolArg(description = "Saving product name (e.g. WALLET)") String name,
+        @ToolArg(description = "Short name of the savings product (e.g. WL01)") String shortName,
+        @ToolArg(description = "Short description of the savings product (e.g. WALLET PRODUCT)") String description,
+        @ToolArg(description = "Currency for the savings product (e.g. USD)") String currency) throws JsonProcessingException{
+        SavingProduct savingProduct = new SavingProduct();
+
+        savingProduct.setName(name);
+        savingProduct.setShortName(shortName);
+        savingProduct.setDescription(description);
+        savingProduct.setCurrencyCode(currency);
+        savingProduct.setDigitsAfterDecimal(2);
+        savingProduct.setInMultiplesOf(null);
+        savingProduct.setNominalAnnualInterestRate(0);
+        savingProduct.setInterestCompoundingPeriodType(1);
+        savingProduct.setInterestPostingPeriodType(4);
+        savingProduct.setInterestCalculationDaysInYearType(1);
+        savingProduct.setInterestCalculationDaysInYearType(365);
+        savingProduct.setWithdrawalFeeForTransfers("false");
+        savingProduct.setEnforceMinRequiredBalance("false");
+        savingProduct.setAllowOverdraft("false");
+        savingProduct.setWithHoldTax("false");
+        savingProduct.setIsDormancyTrackingActive("false");
+
+        ArrayList<Charge> charges = new ArrayList<>();
+        savingProduct.setCharges(charges);
+
+        savingProduct.setAccountingRule(1);
+        savingProduct.setLocale("en");
+
+        ObjectMapper ow = new ObjectMapper();
+        String jsonClient = ow.writeValueAsString(savingProduct);
+        jsonClient = jsonClient.replace(":null", ":\"\"");
+
+        return mifosXClient.createDefaultSavingsProduct(jsonClient);
     }
 
     @Tool(description = "Create a new loan account for a client using their account number and a loan product ID. " +
